@@ -74,6 +74,9 @@ The signature extraction method relies on regular expression matching and basic 
 
 If the RPC connection fails, the script will attempt to reconnect several times. If failures persist, it will prompt the user to press 'P' to manually trigger a reconnection attempt.
 
+# Get Bitcoin R, S, Z values from transaction hash
+Getting RSZ values you can recover Bitcoin private key using weak signatures with random vulnerability.
+https://allprivatekeys.com/get-rsz-signature-from-tx
 
 # Sponsorship
 If this project was helpful to you, please buy me a coffee. Your support is greatly appreciated. Thank you!
@@ -87,5 +90,5 @@ TRX: TAHUmjyzg7B3Nndv264zWYUhQ9HUmX4Xu4
 # 📜 Disclaimer
 Reminder: Do not enter the real private key on the connected device!
 
-This tool is only for learning, analyzing, testing and vulnerability research. Please use it with understanding of the relevant risks. Cracking other people's private keys is unethical and will be punished by law. Please abide by local laws and regulations. The developer is not responsible for economic losses or legal liabilities caused by the use of this tool.
+This tool is only used for learning, analysis, vulnerability repair, software testing BUG and other research. Please use it with understanding of the relevant risks. Cracking other people's private keys is unethical and will be subject to legal sanctions. Please abide by local laws and regulations. The developer does not assume any responsibility for economic losses or legal liabilities caused by the use of this tool.
 
