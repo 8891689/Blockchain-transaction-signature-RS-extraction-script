@@ -113,6 +113,101 @@ PubKey: 04ca5606a1e820e7a2f6bb3ab090e8ade7b04a7e0b5909a68dda2744ae3b8ecbfa280a47
 Analysis complete.
 
 ```
+********************************************************************************************************************************************************
+
+
+The above is the v1.0 free manual filling version. The following introduces the v2.0 paid version that purchased the compressed package password. It is a one-time fee that unlocks all paid items. It is written in C++ and uses nodes to directly extract RSZ values, save them to the document, and then run the matching program script. It supports batch query of repeated R, automatically fills in information and outputs the final private key.
+
+# Build Dependencies
+Linux (Debian/Ubuntu)：
+
+1. Update the package list
+
+sudo apt-get update
+
+2. Install the C++ compiler and build tools (if not already installed)
+
+sudo apt-get install build-essential
+
+3. Install the development files for OpenSSL and libcurl
+
+sudo apt-get install libssl-dev libcurl4-openssl-dev
+
+# Compilation
+
+g++ -std=c++17 extract_rsz.cpp -lcurl -lpthread -lssl -lcrypto -Wall -Wextra -O3 -march=native -o extract_rsz
+g++ -std=c++17 -pthread -O3 -o crack_keys crack_keys.cpp -lssl -lcrypto -Wall -Wextra
+g++ extract_rszp.cpp -static -o extract_rszp -I/home/vcpkg/installed/x64-linux/include -L/home/vcpkg/installed/x64-linux/lib -lcpr -lcurl -lssl -lcrypto -lpthread -lz -std=c++17 -Wall -Wextra
+
+# Use and testing
+
+As above, you need to configure the node information rpc_config.json .
+
+  "rpc_host": "127.0.0.1",
+  "rpc_port": 8332,
+  "rpc_user": "8891689",
+  "rpc_password": "1111111111111111111111$ddbbda8cbc8c0a8cc32a84d0590f2de17f1f8dc798c4411111111111111111111",
+  "num_workers": 4
+}
+
+BTC core wallet bitcoin.conf file configuration in the .bitcoin file directory If you don’t understand, ask AI.
+
+txindex=1
+listen=1
+server=1
+daemon=1
+debug=1
+logips=1
+printtoconsole=1
+logtimestamps=1
+fallbackfee=0.0002
+maxconnections=500
+rpcuser=8891689
+rpcpassword=1111111111111111111111$ddbbda8cbc8c0a8cc32a84d0590f2de17f1f8dc798c4411111111111111111111
+rpcbind=127.0.0.1
+rpcallowip=127.0.0.1
+rpcport=8332
+dbcache=8000
+par=4
+datadir=/media/.bitcoin
+debuglogfile=/media/.bitcoin/debug.log
+
+# Instances extracted from 750001 800000
+
+./extract_rsz -h
+Usage: ./extract_rsz <start_block> <end_block> <output_file>
+
+
+./extract_rsz 750001 800000 750001.800000.txt
+Progress: 50000/50000 blocks. Total Signatures: 63466929. Rate (overall): 7.54 blk/s, 9566.82 sig/s.
+--- Processing Complete ---
+Processed block range: 750001 - 800000
+Total signatures extracted: 63466929
+Total time: 6634.12 seconds
+
+# 750001.800000.txt The output document content is as follows:
+
+ID: bdb4c770d447739e9a53ac862343a753f50f9e7bf07721b8820eb949964f5c8e
+R : 5362a267cdcd89391979d6b9e279fe9c8b1caf4b76d432cd2600e8dc21f30d4b
+S : 2fa68702df640a3f73c01572736665bee77de0705e5a55a3d2cea9a005da3188
+Z : d3b06b8130896df3086783776cec118c114692d810986eabe822dc7235e2deac
+.
+.
+.
+.
+ID: 446e4a76261e495b82e5c4085f30ee1fa027f4d3c0ccb4afc10c0c6d0614ede7
+R : 3a183536ab42a3777d310fdb1e18bac17234e9bb181ebbab78efc9a9f69dad35
+S : 0a1f5e1aa0a608dcee31c68c48984ba88fc035d83775765a09ef7cd5538afaf0
+Z : 70e446fc3b2a405dc000340787b2f7f95b638adbc11f25199b749848e7c3f2da
+ID: 76ed258ef48cd9ef643f84b22172536b7e204431f92a1e5ed90ac1cb7c0f46b9
+R : e3fac5013cb64da897797a9aea58e8eeb5f49388f3c30a7a2c9dc16144722d79
+S : 48f35443bf7153b211426355ac2aa528c44f3dcaa21bac87c39d059090eeae99
+Z : dfe7ed29489932a243e1812511eb143be5d7622c775cdffe41de202b472431fe
+
+
+
+
+
 # Sponsorship
 If this project was helpful to you, please buy me a coffee. Your support is greatly appreciated. Thank you!
 ```
