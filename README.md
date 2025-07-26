@@ -15,7 +15,7 @@ This script connects via RPC to a Bitcoin or compatible blockchain node, scans b
 ## Requirements
 
 *   Python 3
-*   `requests` library (installable via `pip install requests`)
+*   `requests` library (installable via `pip install requests base58`)
 *   A running Bitcoin Core or compatible node with RPC service enabled.
 
 ## Setup
@@ -75,9 +75,44 @@ The signature extraction method relies on regular expression matching and basic 
 If the RPC connection fails, the script will attempt to reconnect several times. If failures persist, it will prompt the user to press 'P' to manually trigger a reconnection attempt.
 
 # Get Bitcoin R, S, Z values from transaction hash
-Getting RSZ values you can recover Bitcoin private key using weak signatures with random vulnerability.
-https://allprivatekeys.com/get-rsz-signature-from-tx
 
+Getting RSZ values you can recover Bitcoin private key using weak signatures with random vulnerability.
+```
+https://allprivatekeys.com/get-rsz-signature-from-tx
+```
+# Or use script extract_rszp.py
+
+View raw transaction data https://btc.exan.tech/tx/b5add54960756c58ebabb332c5ef89098d2c3b8f2107b939ec542178e846108b
+```
+python3 extract_rszp.py -d b5add54960756c58ebabb332c5ef89098d2c3b8f2107b939ec542178e846108b
+Fetching raw transaction for txid: b5add54960756c58ebabb332c5ef89098d2c3b8f2107b939ec542178e846108b...
+Successfully fetched raw transaction.
+
+Analyzing Transaction...
+======================================================================
+[Input Index #: 0]
+     R: 83fe1c06236449b69a7bee5be422c067d02c4ce3f4fa3756bd92c632f971de06
+     S: 7405249d2aa9184b688f5307006fddc3bd4a7eb89294e3be3438636384d64ce7
+     Z: 070239c013e8f40c8c2a0e608ae15a6b1bb4b8fbcab3cff151a6e4e8e05e10b7
+PubKey: 04ca5606a1e820e7a2f6bb3ab090e8ade7b04a7e0b5909a68dda2744ae3b8ecbfa280a47639c811134d648e8ee8096c33b41611be509ebca837fbda10baaa1eb15
+======================================================================
+
+Analysis complete.
+
+python3 extract_rszp.py -x 01000000013bf51de6fb77fb5aacd88b39d94af438145aa7c2d728979d3ee33651ed09c5fd000000008b48304502210083fe1c06236449b69a7bee5be422c067d02c4ce3f4fa3756bd92c632f971de0602207405249d2aa9184b688f5307006fddc3bd4a7eb89294e3be3438636384d64ce7014104ca5606a1e820e7a2f6bb3ab090e8ade7b04a7e0b5909a68dda2744ae3b8ecbfa280a47639c811134d648e8ee8096c33b41611be509ebca837fbda10baaa1eb15ffffffff01905f010000000000232103bec42e5d718b0e5b3853243c9bcf00dd671a335b0eb99fd8ca32f8d5784a9476ac00000000
+
+Analyzing Transaction...
+======================================================================
+[Input Index #: 0]
+     R: 83fe1c06236449b69a7bee5be422c067d02c4ce3f4fa3756bd92c632f971de06
+     S: 7405249d2aa9184b688f5307006fddc3bd4a7eb89294e3be3438636384d64ce7
+     Z: 070239c013e8f40c8c2a0e608ae15a6b1bb4b8fbcab3cff151a6e4e8e05e10b7
+PubKey: 04ca5606a1e820e7a2f6bb3ab090e8ade7b04a7e0b5909a68dda2744ae3b8ecbfa280a47639c811134d648e8ee8096c33b41611be509ebca837fbda10baaa1eb15
+======================================================================
+
+Analysis complete.
+
+```
 # Sponsorship
 If this project was helpful to you, please buy me a coffee. Your support is greatly appreciated. Thank you!
 ```
